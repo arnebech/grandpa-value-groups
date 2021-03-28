@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Split to groups</title>
+    <script src="src.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const numGroupsEl = document.getElementById('numGroups');
+            const valuesEl = document.getElementById('values');
+            const buttonEl = document.getElementById('button');
+            const outputEl = document.getElementById('output');
+
+            const lastNumGroup = localStorage.getItem('numGroups') || 3;
+            const lastValues = localStorage.getItem('values') || '1,2,3,4,5,6,7,8,9';
+            numGroupsEl.value = lastNumGroup;
+            valuesEl.value = lastValues;
+
+            buttonEl.addEventListener('click', () => {
+
+                outputEl.innerText = "Computing...";
+
+                const numGroups = +numGroupsEl.value;
+                const values = valuesEl.value.split(',').map(value => +(value.trim()));
+
+                localStorage.setItem('numGroups', numGroups);
+                localStorage.setItem('values', values);
+                setTimeout(() => {
+                    const results = splitToGroups(values, numGroups);
+                    outputEl.innerText = stringifyResult(results);
+                }, 0);
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+    <h1> Values to groups </h1>
+
+    Number of groups<br>
+    <input id="numGroups">
+    <br />
+    <br />
+    Values (comma separated list)<br />
+    <textarea id="values" style="width: 500px"></textarea>
+    <br />
+    <br />
+    <button id="button">Compute</button>
+
+    <br />
+    <br />
+
+    <pre id="output">
+    </pre>
+
+</body>
+
+</html>
